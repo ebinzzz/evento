@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>OTP Verification</h2>
+        
+        <?php if(!isset($_POST['otp'])): ?>
+        <!-- Email submission form -->
+        <form action="verify.php" method="post">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="email" required>
+            </div>
+            <input type="submit" value="Send OTP">
+        </form>
+        <?php else: ?>
+        <!-- OTP submission form -->
+        <form action="verify_otp.php" method="post">
+            <div class="form-group">
+                <label for="otp">Enter OTP:</label>
+                <input type="text" name="otp" required>
+                <input type="hidden" name="email" value="<?php echo $_POST['email']; ?>">
+            </div>
+            <input type="submit" value="Validate OTP">
+        </form>
+        <?php endif; ?>
+    </div>
+</body>
+</html>
+
+<style>
+    .container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="email"], input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+input[type="submit"] {
+    padding: 10px 15px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+</style>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Development Workshop Feedback</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    .question {
+        margin-bottom: 20px;
+    }
+
+    .question label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        font-size: 18px;
+        color: #555;
+    }
+
+    .options label {
+        font-size: 16px;
+        color: #666;
+        display: flex;
+        align-items: center; /* Align items vertically */
+    }
+
+    .options input[type="radio"] {
+        margin-right: 10px;
+        display: none; /* Hide the default radio button */
+    }
+
+    .options label:before {
+        content: "\2610"; /* Unicode for empty checkbox */
+        margin-right: 5px;
+    }
+
+    .options input[type="radio"]:checked + label:before {
+        content: "\2611"; /* Unicode for checked checkbox */
+    }
+
+    textarea {
+        width: calc(100% - 20px);
+        padding: 10px;
+        resize: vertical;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Web Development Workshop Feedback</h1>
+    <form>
+        <div class="question">
+            <label for="customer-service">Customer Service:</label>
+            <div class="options">
+                <input type="radio" id="very-good-cs" name="customer-service" value="Very Good">
+                <label for="very-good-cs">Very Good</label>
+                <input type="radio" id="good-cs" name="customer-service" value="Good">
+                <label for="good-cs">Good</label>
+                <input type="radio" id="average-cs" name="customer-service" value="Average">
+                <label for="average-cs">Average</label>
+                <input type="radio" id="bad-cs" name="customer-service" value="Bad">
+                <label for="bad-cs">Bad</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="question">
+            <label for="product-quality">Product Quality:</label>
+            <div class="options">
+                <input type="radio" id="very-good-pq" name="product-quality" value="Very Good">
+                <label for="very-good-pq">Very Good</label>
+                <input type="radio" id="good-pq" name="product-quality" value="Good">
+                <label for="good-pq">Good</label>
+                <input type="radio" id="average-pq" name="product-quality" value="Average">
+                <label for="average-pq">Average</label>
+                <input type="radio" id="bad-pq" name="product-quality" value="Bad">
+                <label for="bad-pq">Bad</label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add more containers for additional questions here as needed -->
+    
+    <div class="container">
+        <div class="question">
+            <label for="additional-comments">Additional Comments (Optional):</label>
+            <textarea id="additional-comments" name="additional-comments" placeholder="Write your feedback here..."></textarea>
+        </div>
+        <button type="submit" class="btn">Submit Feedback</button>
+    </form>
+</div>
+
+</body>
+</html>
