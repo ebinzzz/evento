@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Preview with Video Background</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <video autoplay muted loop class="video-bg">
+      <source src="background_video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="content">
+      <div class="event-preview">
+        <div class="event-image">
+          <img src="event_image.jpg" alt="Event Image">
+        </div>
+        <div class="event-details">
+          <h2 class="event-name">Event Name</h2>
+          <p class="event-price">$50</p>
+          <p class="event-date">Date: 10th April 2024</p>
+          <p class="event-time">Time: 5:00 PM - 9:00 PM</p>
+          <p class="total-tickets">Total Tickets Available: 100</p>
+          <p class="venue-location">Venue: XYZ Convention Center, New York</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+<style>
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.container {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center; /* Center the container horizontally */
+  align-items: center; /* Center the container vertically */
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust the background color and transparency */
+}
+
+.video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(10px); /* Adjust the blur amount as needed */
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  color: #fff; /* Text color */
+}
+
+.event-preview {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.event-image img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+.event-details {
+  flex-grow: 1;
+}
+
+.event-details p {
+  margin: 5px 0; /* Adjust spacing between paragraphs */
+}
+
+.event-name {
+  font-size: 24px;
+  margin: 0;
+}
+
+.event-price {
+  font-size: 18px;
+  margin: 0;
+}
+
+.icons i {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+
+</style>

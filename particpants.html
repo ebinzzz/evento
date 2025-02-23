@@ -1,0 +1,174 @@
+<?php
+// Establish database connection
+$servername = "localhost";
+$username = "your_username";
+$password = "your_password";
+$database = "your_database";
+
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch event data based on type_id
+if (isset($_GET['type_id'])) {
+    $type_id = $_GET['type_id'];
+    
+    // Prepare SQL query to fetch event data
+    $event_query = "SELECT * FROM event_type WHERE type_id = $type_id";
+    $event_result = $conn->query($event_query);
+    
+    if ($event_result->num_rows > 0) {
+        $event_data = $event_result->fetch_assoc();
+        
+        // Fetch participants data for the event
+        $event_id = $event_data['event_id'];
+        $participants_query = "SELECT * FROM participants WHERE event_id = $event_id";
+        $participants_result = $conn->query($participants_query);
+        
+        $participants_data = array();
+        if ($participants_result->num_rows > 0) {
+            while ($row = $participants_result->fetch_assoc()) {
+                $participants_data[] = $row;
+            }
+        }
+        
+        // Combine event and participants data
+        $response_data = array(
+            'event' => $event_data,
+            'participants' => $participants_data
+        );
+        
+        // Send JSON response
+        header('Content-Type: application/json');
+        echo json_encode($response_data);
+    } else {
+        // No event found for the given type_id
+        echo "No event found for the given type_id";
+    }
+} else {
+    // type_id parameter not provided
+    echo "type_id parameter not provided";
+}
+
+// Close database connection
+$conn->close();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      width: 80%;
+      margin: 50px auto;
+      text-align: center;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 20px 40px;
+      background-color: #007bff;
+      color: #fff;
+      font-size: 20px;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin: 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #0056b3;
+    }
+
+    .participant-details {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .participant-details.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <button class="button" id="technical-event-btn">Technical Event</button>
+  <button class="button" id="gaming-event-btn">Gaming Event</button>
+  <button class="button" id="on-stage-event-btn">On Stage Event</button>
+  <button class="button" id="off-stage-event-btn">Off Stage Event</button>
+
+  <div class="participant-details" id="technical-event-details">
+    <h2>Technical Event Participants</h2>
+    <p>Participant details for technical event go here...</p>
+  </div>
+
+  <div class="participant-details" id="gaming-event-details">
+    <h2>Gaming Event Participants</h2>
+    <p>Participant details for gaming event go here...</p>
+  </div>
+
+  <div class="participant-details" id="on-stage-event-details">
+    <h2>On Stage Event Participants</h2>
+    <p>Participant details for on stage event go here...</p>
+  </div>
+
+  <div class="participant-details" id="off-stage-event-details">
+    <h2>Off Stage Event Participants</h2>
+    <p>Participant details for off stage event go here...</p>
+  </div>
+</div>
+
+<script>
+    document.getElementById('technical-event-btn').addEventListener('click', function() {
+      fetchEventData(1);
+    });
+  
+    document.getElementById('gaming-event-btn').addEventListener('click', function() {
+      fetchEventData(2);
+    });
+  
+    document.getElementById('on-stage-event-btn').addEventListener('click', function() {
+      fetchEventData(3);
+    });
+  
+    document.getElementById('off-stage-event-btn').addEventListener('click', function() {
+      fetchEventData(4);
+    });
+  
+    function fetchEventData(typeId) {
+      // Make an AJAX request to your backend server
+      fetch(`/getEventData?type_id=${typeId}`)
+        .then(response => response.json())
+        .then(data => {
+          displayEventData(data);
+        })
+        .catch(error => {
+          console.error('Error fetching event data:', error);
+        });
+    }
+  
+    function displayEventData(data) {
+      // Assuming your data structure has event and participant information
+      // You can display it accordingly in your HTML
+      console.log('Event Data:', data);
+    }
+  </script>
+  
+
+</body>
+</html>

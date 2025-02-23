@@ -45,6 +45,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     $eid = $row['event_id'];
     $col = $row['college'];
     $email = $row['email'];
+	$t = $row['ticket_id'];
     $profileImagePath1 = $row['qr_code'];
     $title = '';
 }
@@ -102,8 +103,7 @@ echo "Day (Numeric): $day1, Day (Name): $day, Month: $month, Year: $year";
 			</p>
 			<div class="ticket-number">
 				<p>
-					#<?php echo"$id ";?>
-				</p>
+				<span><?php echo $t; ?></span>				</p>
 			</div>
 		</div>
 		<div class="ticket-info">
@@ -114,14 +114,14 @@ echo "Day (Numeric): $day1, Day (Name): $day, Month: $month, Year: $year";
 			</p>
 			<div class="show-name">
 				<h1><?php echo" $event_count"?></h1>
-				<h2><?php echo"$name"?> </h2>
+				<h2></h2>
 			</div>
 			<div class="time">
 			<p><?php echo substr($time, 0, 5); ?> PM <span>TO</span> <?php echo substr($time1, 0, 5); ?> PM</p>
 
 				<p>Venue <span>@</span>  <?php echo $venue; ?></p>
 			</div>
-			<p class="location"><span></span>
+			<p class="location"><span>East High School</span>
 				<span class="separator"><i class="far fa-smile"></i></span><span>College of engineering cherthala</span>
 			</p>
 		</div>
@@ -134,7 +134,7 @@ echo "Day (Numeric): $day1, Day (Name): $day, Month: $month, Year: $year";
 		</p>
 		<div class="right-info-container">
 			<div class="show-name">
-				<h1><?php echo"$name"?></h1>
+				<h1>SOUR Prom</h1>
 			</div>
 			<div class="time">
 			<p><?php echo substr($time, 0, 5); ?> PM <span>TO</span> <?php echo substr($time1, 0, 5); ?> PM</p>
@@ -144,7 +144,8 @@ echo "Day (Numeric): $day1, Day (Name): $day, Month: $month, Year: $year";
 			<img src="<?php echo $profileImagePath1; ?>" alt="QR code">
 			</div>
 			<p class="ticket-number">
-				#<?php echo"$id ";?>
+			#<?php echo $id; ?>
+
 			</p>
 		</div>
 	</div>
@@ -152,7 +153,8 @@ echo "Day (Numeric): $day1, Day (Name): $day, Month: $month, Year: $year";
 <!-- partial -->
   <script  src="script1.js"></script>
 
-
+</body>
+</html>
 <style>
 	@import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap");
@@ -179,7 +181,6 @@ html {
 	display: flex;
 	background: white;
 	box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
-
 }
 
 .left {
@@ -189,7 +190,7 @@ html {
 .image {
 	height: 250px;
 	width: 250px;
-	background-image: url("includes/<?php echo $image; ?>");
+	background-image: url("./uploads/<?php echo $image; ?>");
 	background-size: contain;
 	opacity: 0.85;
 }

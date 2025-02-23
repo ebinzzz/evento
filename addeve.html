@@ -1,0 +1,275 @@
+<?php
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve the date and venue sent via POST method
+    $date = $_POST['date'];
+    $venue = $_POST['venue'];
+
+    // Now you have $date and $venue variables available for further processing
+    // You can perform database operations or any other necessary actions here
+    // For example, you might want to insert the event details into your database
+
+    // Example of displaying the received data
+    echo "<h2>Event Details</h2>";
+    echo "<p>Date: $date</p>";
+    echo "<p>Venue: $venue</p>";
+}
+?>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Add Event</h2>
+        <form action="add_event.php" method="post" enctype="multipart/form-data">
+
+            <label for="eventTitle">Event Title:</label><br>
+            <input type="text" id="eventTitle" name="eventTitle" required><br>
+            
+            <label for="eventPrice">Event Price:</label><br>
+            <input type="text" id="eventPrice" name="eventPrice" required><br>     
+            
+            <label for="image">Upload Image:</label><br>
+            <input type="file" id="image" name="image" accept="image/*" required><br>
+
+
+            <label for="typeId">Select Event Type:</label>
+            <select name="typeId" id="typeId">
+              <option value="0">Test</option>
+              <option value="1">Technical Event</option>
+              <option value="2">Gaming Event</option>
+              <option value="3">On Stage Event</option>
+              <option value="4">Off Stage Event</option>
+            </select><br>
+            
+            
+            <label for="staff">Staff:</label><br>
+            <input type="text" id="staff" name="staff" required><br>
+            
+            <label for="student">Student:</label><br>
+            <input type="text" id="student" name="student" required><br>
+            
+            <label for="date">Date:</label><br>
+            <input type="date" id="date" name="date" required><br>
+            
+            <label for="fromTime">From Time:</label><br>
+<input type="time" id="fromTime" name="fromTime" required><br>
+
+<label for="toTime">To Time:</label><br>
+<input type="time" id="toTime" name="toTime" required><br>
+
+            <label for="venue">Venue:</label><br>
+            <input type="text" id="venue" name="venue" required><br>
+            <br>
+            
+            <input type="submit" value="Add Event">
+        </form>
+    </div>
+</body>
+</html>
+<style>
+    label {
+    color: white; /* Set label text color to white */
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins',sans-serif;
+}
+body{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+
+  background-image: url('bg2.jpg'); /* Add your background image URL */
+    background-size: cover; /* Cover the entire container */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not repeat the background image */
+}
+   
+.container{
+  max-width: 700px;
+  width: 100%;
+
+  padding: 25px 30px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(255, 255, 255, 0.15);
+}
+.container .title{
+  font-size: 25px;
+  font-weight: 500;
+  position: relative;
+}
+.container .title::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 30px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+}
+.content form .user-details{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0 12px 0;
+}
+form .user-details .input-box{
+  margin-bottom: 15px;
+  width: calc(100% / 2 - 20px);
+}
+form .input-box span.details{
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+input[type="text"],
+select,
+input[type="date"],
+input[type="time"],
+input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #888888; /* Adjust border thickness */
+    border-radius: 8px;
+    transition: border-color 0.3s ease-in-out; /* Adding transition effect to input borders */
+    font-size: 16px; /* Adjust font size */
+    background-color: transparent; /* Set background color to transparent */
+    color: rgb(220, 212, 212); /* Set text color to white */
+}
+
+select
+ {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #888888; /* Adjust border thickness */
+    border-radius: 8px;
+    transition: border-color 0.3s ease-in-out; /* Adding transition effect to input borders */
+    font-size: 16px; /* Adjust font size */
+    background-color: grey; /* Set background color to transparent */
+    color: rgb(0, 0, 0); /* Set text color to white */
+}
+
+
+
+
+
+
+input[type="text"]:focus,
+select:focus,
+input[type="date"]:focus,
+input[type="time"]:focus {
+    border-color: #45a049; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Rest of your styles... */
+
+.user-details .input-box input:focus,
+.user-details .input-box input:valid{
+  border-color: #9b59b6;
+}
+ form .gender-details .gender-title{
+  font-size: 20px;
+  font-weight: 500;
+ }
+ form .category{
+   display: flex;
+   width: 80%;
+   margin: 14px 0 ;
+   justify-content: space-between;
+ }
+ form .category label{
+   display: flex;
+   align-items: center;
+   cursor: pointer;
+ }
+ .eventtitle{
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  margin-right: 10px;
+  background: #d9d9d9;
+  border: 5px solid transparent;
+  transition: all 0.3s ease;
+}
+ #dot-1:checked ~ .category label .one,
+ #dot-2:checked ~ .category label .two,
+ #dot-3:checked ~ .category label .three{
+   background: #9b59b6;
+   border-color: #d9d9d9;
+ }
+ form input[type="radio"]{
+   display: none;
+ }
+ input[type="text"]:focus,
+select:focus,
+input[type="date"]:focus,
+input[type="time"]:focus {
+    border-color: #45a049; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+ form .button{
+   height: 45px;
+   margin: 35px 0
+ }
+ input[type=submit]{
+   height: 100%;
+   width: 100%;
+   border-radius: 5px;
+   border: none;
+   color: #110d0d;
+   font-size: 18px;
+   font-weight: 500;
+   letter-spacing: 1px;
+   cursor: pointer;
+   transition: all 0.3s ease;
+   background: linear-gradient(135deg, #71b7e6, #9b59b6);
+ }
+ form .button input:hover{
+  /* transform: scale(0.99); */
+  background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+  }
+ @media(max-width: 584px){
+ .container{
+  max-width: 100%;
+}
+form .user-details .input-box{
+    margin-bottom: 15px;
+    width: 100%;
+  }
+  form .category{
+    width: 100%;
+  }
+  .content form .user-details{
+    max-height: 300px;
+    overflow-y: scroll;
+  }
+  .user-details::-webkit-scrollbar{
+    width: 5px;
+  }
+  }
+  @media(max-width: 459px){
+  .container .content .category{
+    flex-direction: column;
+  }
+}
+
+</style>

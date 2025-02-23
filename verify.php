@@ -1,9 +1,6 @@
 <?php
-// Include PHPMailer library
-include_once("class.phpmailer.php");
-include_once("class.smtp.php");
+session_start();
 
-// Database connection
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -12,71 +9,55 @@ $database = "events";
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if email exists in the database
-$email = $_POST['email'];
-$sql_check_email = "SELECT * FROM participants WHERE email='$email'";
-$result_check_email = $conn->query($sql_check_email);
+// Process the scanned QR code data
+if (isset($_POST['code'])) {
+    $code = $_POST['code'];
 
-if ($result_check_email && $result_check_email->num_rows > 0) {
-    // Generate OTP
-    $otp = rand(100000, 999999);
+    // Explode the QR code data into an array of lines
+    $lines = explode("\n", $code);
 
-    // Email details
-    $mail = new PHPMailer(true);
+    // Assign data to five different variables
+    if (count($lines) >= 5) {
+        list($var1, $var2, $var3, $var4, $var5) = $lines;
+        
+        // Fetch participant ID from the QR code data
+        $sql = "SELECT p_id, fullname, verify FROM participants WHERE ticket_id = ? AND verify != 'yes'"; // added verify condition
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $var5);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-    try {
-        // Server settings
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'ebin.cec@gmail.com'; // Your Gmail email address
-        $mail->Password = 'rgoclgzigtyjfofx'; // Your Gmail password
-        $mail->SMTPSecure = 'tls'; // Encryption (tls or ssl)
-        $mail->Port = 587; // Port (587 for TLS, 465 for SSL)
-    
-        // Set the sender and recipient addresses
-        $mail->setFrom('ebinbenny777@gmail.com', 'no-reply-miniproject@cec'); // Sender's email and name
-        $mail->addAddress($email); // Receiver's email
-        $mail->isHTML(true);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $participant_id = $row['p_id'];
+            $name = $row['fullname'];
 
-        // Email subject and body
-        $mail->Subject = 'OTP Verification';
-        $mail->Body = 'Dear User,<br><br>' . 
-            'Your OTP for checking our registered events in evento is:<br>' .
-            '<strong>' . $otp . '</strong><br><br>' .
-            'Do not share this OTP with anyone.<br>' .
-            'This is a computer-generated email. Please do not reply.<br><br>' .
-            'Best regards,<br>Your Organization';
+            // Update participant's attendance status to 'present'
+            $update_sql = "UPDATE participants SET verify = 'yes' WHERE p_id = ?";
+            $update_stmt = $conn->prepare($update_sql);
+            $update_stmt->bind_param("i", $participant_id);
+            $update_stmt->execute();
 
-        // Send email
-        if ($mail->send()) {
-            // Update OTP in the database
-            $sql_update_otp = "UPDATE participants SET otp_code='$otp' WHERE email='$email'";
-            if ($conn->query($sql_update_otp) === TRUE) {
-                // Redirect to verify_otp.html with email parameter
-                echo "<script>alert('Otp has been sent successfully to email.');</script>";
-                echo "<script>window.location.href='verify_otp.php?email=" . $email . "';</script>";
-                exit(); // Stop further execution of the script
-                
-            } else {
-                echo "Error updating OTP: " . $conn->error;
+            echo "Ticket verification successful: " . $var5;
+            echo ": " . $name;
+
+            // Close the update statement if it exists
+            if (isset($update_stmt)) {
+                $update_stmt->close();
             }
         } else {
-            echo "Mailer Error: " . $mail->ErrorInfo;
+        
+            echo " already verified:" . $var5;
         }
-    } catch (Exception $e) {
-        echo "Email not registered. Error: " . $e->getMessage();
-    }
-} else {
-    echo "<script>alert('Email not found.');</script>";
-echo "<script>window.location.href='otp.php';</script>";
-exit(); // Stop further execution of the script
-}
 
-$conn->close();
+        // Close the select statement
+        $stmt->close();
+    } else {
+        echo "Insufficient data provided.";
+    }
+}
 ?>

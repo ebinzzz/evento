@@ -1,0 +1,129 @@
+<?php
+// Establish a connection to your MySQL database
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "events";
+
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch participants from the database
+$sql = "SELECT * FROM participants";
+$result = $conn->query($sql);
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Marking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .attendance-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+            box-shadow: 0 0 10px rgba(0, 128, 0, 0.5);
+        }
+        .attendance-btn.absent {
+            background-color: #FF5733;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+        }
+        .attendance-btn:hover {
+            background-color: #45a049;
+        }
+        #attendanceMessage {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Attendance Marking</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Attendance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                // Display participants and generate checkboxes
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo '<tr>';
+                        echo '<td>' . $row["fullname"] . '</td>';
+                        echo '<td>' . $row["email"] . '</td>';
+                        echo '<td><button class="attendance-btn present">Present</button> <button class="attendance-btn absent">Absent</button></td>';
+                        echo '</tr>';
+                    }
+                } else {
+                    echo '<tr><td colspan="3">No participants found</td></tr>';
+                }
+                ?>
+            </tbody>
+        </table>
+        <p id="attendanceMessage"></p>
+    </div>
+
+    <script>
+        // JavaScript for handling attendance marking
+        // This script can be modified to handle attendance marking functionality
+        document.querySelectorAll('.attendance-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var status = this.classList.contains('present') ? 'present' : 'absent';
+                var message = status == 'present' ? 'You are marked present!' : 'You are marked absent!';
+                document.getElementById('attendanceMessage').textContent = message;
+            });
+        });
+    </script>
+</body>
+</html>
+
+<?php
+// Close the database connection
+$conn->close();
+?>

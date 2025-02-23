@@ -14,6 +14,7 @@ if ($conn->connect_error) {
 }
 
 // Check if the form is submitted
+<?php
 // Check if the event_id parameter is set in the URL
 if (isset($_GET['event_id'])) {
     // Retrieve the event_id from the URL
@@ -25,26 +26,8 @@ if (isset($_GET['event_id'])) {
     // Handle the case when event_id is not provided in the URL
     echo "Event ID not found in the URL";
 }
-$sql = "SELECT * FROM events WHERE event_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $event_id); // Assuming event_id is an integer
-$stmt->execute();
-$result = $stmt->get_result();
+?>
 
-if ($result->num_rows > 0) {
-    // Output data of each row
-    while ($row = $result->fetch_assoc()) {
-        echo . $row["event_id"] . "<br>";
-        echo "Event Title: " . $row["event_title"] . "<br>";
-        // Add other fields as needed
-    }
-} else {
-    echo "0 results";
-}
-
-// Close statement and connection
-$stmt->close();
-$conn->close();
 ?>
 
 
@@ -82,12 +65,16 @@ $conn->close();
         </div>
         <div class="details">
             <div class="content">
-                <h2><?php echo $row["event_id"] . "<br>"; ?>
-<br>
-                    <span>evento2k24</span>
+                <h2>Jordan Proto-Lyte <br>
+                    <span>Running Collection</span>
                 </h2>
-                <p><?php echo $row["pre"] . "<br>"; ?>
-
+                <p>
+                    Featuring soft foam cushioning and lightweight, woven fabric in the upper, the Jordan Proto-Lyte is
+                    made for all-day, bouncy comfort.
+                    Lightweight Breathability: Lightweight woven fabric with real or synthetic leather provides
+                    breathable support.
+                    Cushioned Comfort: A full-length foam midsole delivers lightweight, plush cushioning.
+                    Secure Traction: Exaggerated herringbone-pattern outsole offers traction on a variety of surfaces.
                 </p>
                 <p class="product-colors">Available Colors:
                     <span class="black active" data-color-primary="#000" data-color-sec="#212121" data-pic="https://github.com/anuzbvbmaniac/Responsive-Product-Card---CSS-ONLY/blob/master/assets/img/jordan_proto.png?raw=true"></span>
